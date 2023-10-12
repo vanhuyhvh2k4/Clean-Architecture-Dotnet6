@@ -20,15 +20,24 @@ namespace Clean_Architecture_Dotnet6.Infrastructure
                 Cost = 1,
             },
         };
+        private readonly MovieDbContext _movieDbContext;
+
+        public MovieRepository(MovieDbContext movieDbContext)
+        {
+            _movieDbContext = movieDbContext;
+        }
 
         public Movie CreateMovie(Movie movie)
         {
-            throw new NotImplementedException();
+            _movieDbContext.Movies.Add(movie);
+            _movieDbContext.SaveChanges();
+
+            return movie;
         }
 
         public List<Movie> GetAllMovies()
         {
-            return movies;
+            return _movieDbContext.Movies.ToList();
         }
     }
 }
