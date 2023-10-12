@@ -21,6 +21,11 @@ namespace Clean_Architecture_Dotnet6.Infrastructure
             },
         };
 
+        public Movie CreateMovie(Movie movie)
+        {
+            throw new NotImplementedException();
+        }
+
         public List<Movie> GetAllMovies()
         {
             return movies;

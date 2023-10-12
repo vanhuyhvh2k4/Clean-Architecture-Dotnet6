@@ -7,5 +7,7 @@ namespace Clean_Architecture_Dotnet6.Application
     public interface IMovieService
     {
         List<Movie> GetAllMovies();
+
+        Movie CreateMovie(Movie movie);
     }
 }

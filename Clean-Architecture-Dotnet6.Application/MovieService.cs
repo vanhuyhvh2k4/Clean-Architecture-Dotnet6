@@ -12,6 +12,11 @@ namespace Clean_Architecture_Dotnet6.Application
             _movieRepository = movieRepository;
         }
 
+        public Movie CreateMovie(Movie movie)
+        {
+            throw new NotImplementedException();
+        }
+
         public List<Movie> GetAllMovies()
         {
             var movies = _movieRepository.GetAllMovies();
