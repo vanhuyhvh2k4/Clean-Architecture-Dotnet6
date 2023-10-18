@@ -1,5 +1,8 @@
 ﻿using Clean_Architecture_Dotnet6.Application;
+using Clean_Architecture_Dotnet6.Application.Commands;
+using Clean_Architecture_Dotnet6.Application.Queries;
 using Clean_Architecture_Dotnet6.Domain;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Clean_Architecture_Dotnet6.API.Controllers
@@ -9,24 +12,30 @@ namespace Clean_Architecture_Dotnet6.API.Controllers
     public class MovieController : ControllerBase
     {
         private readonly IMovieService _service;
+        private readonly IMediator _mediator;
 
-        public MovieController(IMovieService service)
+        public MovieController(IMovieService service, IMediator mediator)
         {
             _service = service;
+            _mediator = mediator;
         }
 
         [HttpGet]
-        public ActionResult<List<Movie>> Get()
+        public async Task<List<Movie>> Get()
         {
-            var moviesFromService = _service.GetAllMovies();
-            return Ok(moviesFromService);
+            return await _mediator.Send(new GetMovieListQuery());
+        }
+
+        [HttpGet("{id}")]
+        public async Task<Movie> Get(Guid Id)
+        {
+            return await _mediator.Send(new GetMovieByIdQuery(Id));
         }
 
         [HttpPost]
-        public ActionResult<Movie> PostMovie(Movie movie)
+        public async Task<Movie> PostMovie(Movie movie)
         {
-            var Movie = _service.CreateMovie(movie);
-            return Ok(movie);
+            return await _mediator.Send(new AddMovieCommand(movie));
         }
     }
 }
